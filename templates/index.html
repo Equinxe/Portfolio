@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Développeur</title>
+    <link rel="stylesheet" href="../static/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container navbar-inner">
+        <a href="#home" class="logo">Portfolio</a>
+        <div class="nav-links">
+          <a href="#home">Accueil</a>
+          <a href="#about">À Propos</a>
+          <a href="#skills">Compétences</a>
+          <a href="#projects">Projets</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="hamburger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Theme Switcher -->
+    <div class="theme-switcher" id="theme-switcher">
+      <div class="theme-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-background"></div>
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <h1 class="hero-title fade-in-up">
+          Bonjour, je suis <span>Louvier Valeryan</span>
+        </h1>
+        <p class="hero-subtitle fade-in-up delay-1">
+          Développeur Fullstack passionné par la création d'applications web et
+          mobiles modernes et performantes.
+        </p>
+
+        <!-- Technologies Carousel -->
+        <div class="tech-carousel-container fade-in-up delay-2">
+          <div class="tech-carousel" id="techCarousel">
+            <!--JavaScript -->
+          </div>
+          <div class="carousel-navigation">
+            <button class="carousel-prev" id="carouselPrev">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="carousel-progress">
+              <div class="carousel-progress-bar" id="carouselProgressBar"></div>
+            </div>
+            <button class="carousel-next" id="carouselNext">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="fade-in-up delay-3">
+          <a href="#contact" class="hero-cta">Me Contacter</a>
+          <a href="#projects" class="hero-cta outline">Voir Mes Projets</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title">À Propos</h2>
+        <p class="section-subtitle">
+          Découvrez mon parcours et mes motivations en tant que développeur.
+        </p>
+
+        <div class="about-content">
+          <div class="about-image">
+            <img src="/api/placeholder/600/600" alt="Photo de profil" />
+          </div>
+          <div class="about-text">
+            <p>Bla bla paragraphe 1</p>
+            <p>Bla bla paragraphe 2</p>
+            <p>Bla bla paragraphe 3</p>
+            <div class="hero-tags">
+              <span class="tag">Résolution de problèmes</span>
+              <span class="tag">Travail d'équipe</span>
+              <span class="tag">Apprentissage continu</span>
+              <span class="tag">Communication</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section skills">
+      <div class="container">
+        <h2 class="section-title">Compétences</h2>
+        <p class="section-subtitle">
+          Les technologies et outils que j'utilise quotidiennement.
+        </p>
+
+        <div class="skills-container">
+          <div class="skill-category">
+            <h3>Langages de programmation</h3>
+            <div class="skill-list" id="programmingLanguages">
+              <!--JavaScript -->
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <h3>Frameworks & Bibliothèques</h3>
+            <div class="skill-list" id="frameworks">
+              <!--JavaScript -->
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <h3>Outils & Technologies</h3>
+            <div class="skill-list" id="tools">
+              <!--JavaScript -->
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <h3>Soft Skills</h3>
+            <div class="skill-list" id="softSkills">
+              <!--JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2 class="section-title">Projets</h2>
+        <p class="section-subtitle">Découvrez mes réalisations récentes.</p>
+
+        <div class="projects-grid" id="projectsGrid">
+          <!--JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+      <div class="container">
+        <h2 class="section-title">Contact</h2>
+        <p class="section-subtitle">
+          Intéressé par une collaboration ? N'hésitez pas à me contacter.
+        </p>
+
+        <div class="contact-content">
+          <div class="contact-info">
+            <h3>Informations de contact</h3>
+
+            <div class="contact-method">
+              <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="contact-details">
+                <h4>Email</h4>
+                <a href="mailto:votre.email@exemple.com"
+                  >valy.louvier@gmail.com</a
+                >
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="contact-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="contact-details">
+                <h4>Téléphone</h4>
+                <a href="tel">+33 7 63 33 14 87</a>
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="contact-details">
+                <h4>Localisation</h4>
+                <p>Rouen, France</p>
+              </div>
+            </div>
+
+            <div class="social-links">
+              <a href="#" class="social-link">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="#" class="social-link">
+                <i class="fab fa-linkedin"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-form">
+            <form id="contactForm">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Votre nom"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Votre email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Sujet" />
+              </div>
+              <div class="form-group">
+                <textarea
+                  class="form-control"
+                  rows="5"
+                  placeholder="Votre message"
+                  required
+                ></textarea>
+              </div>
+              <button type="submit" class="form-submit">
+                Envoyer le message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>
+          &copy; <span id="currentYear"></span> | Conçu avec
+          <i class="fas fa-heart"></i> par Louvier Valeryan
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="../src/main.js"></script>
+  </body>
+</html>
