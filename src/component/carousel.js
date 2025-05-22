@@ -1,10 +1,12 @@
 import { techCarouselData } from "./data.js";
 
 let animationId;
-let scrollSpeed = 1;
+let scrollSpeed = 0.5;
 let currentPosition = 0;
 let totalWidth = 0;
 let containerWidth = 0;
+let isHovered = false;
+let itemWidth = 152; // 120px + 16px de gap
 
 const initCarousel = () => {
   const carousel = document.getElementById("techCarousel");
@@ -12,45 +14,47 @@ const initCarousel = () => {
   const nextButton = document.getElementById("carouselNext");
   const progressBar = document.getElementById("carouselProgressBar");
 
-  // Créer les éléments du carrousel (sans duplication)
+  // Créer les éléments du carrousel
   populateCarousel(carousel);
 
-  // Calculer les dimensions
+  // Calculer les dimensions et définir la position initiale
   calculateDimensions(carousel);
 
-  // Configuration des boutons de navigation
+  // Configuration des boutons de navigation pour navigation manuelle
   prevButton.addEventListener("click", () => {
-    scrollSpeed = Math.max(0.2, scrollSpeed - 0.3);
-    updateProgressBar(progressBar);
+    navigateCarousel(-1, carousel, progressBar);
   });
 
   nextButton.addEventListener("click", () => {
-    scrollSpeed = Math.min(2.5, scrollSpeed + 0.3);
-    updateProgressBar(progressBar);
+    navigateCarousel(1, carousel, progressBar);
+  });
+
+  // Gestion du survol - arrêter/reprendre l'animation automatique
+  const carouselContainer = carousel.parentElement;
+
+  carouselContainer.addEventListener("mouseenter", () => {
+    isHovered = true;
+    stopContinuousScroll();
+  });
+
+  carouselContainer.addEventListener("mouseleave", () => {
+    isHovered = false;
+    startContinuousScroll(carousel, progressBar);
   });
 
   // Démarrer l'animation continue
   startContinuousScroll(carousel, progressBar);
 
-  // Gestion du survol
-  carousel.parentElement.addEventListener("mouseenter", () => {
-    scrollSpeed = 0.2;
-  });
-
-  carousel.parentElement.addEventListener("mouseleave", () => {
-    scrollSpeed = 1;
-  });
-
   // Recalculer les dimensions au redimensionnement
   window.addEventListener("resize", () => {
     calculateDimensions(carousel);
-    updateProgressBar(progressBar);
+    updateCarouselProgress(progressBar);
   });
 
-  updateProgressBar(progressBar);
+  updateCarouselProgress(progressBar);
 };
 
-// Créer les éléments du carrousel (version simple)
+// Créer les éléments du carrousel
 const populateCarousel = (carousel) => {
   carousel.innerHTML = "";
 
@@ -79,45 +83,117 @@ const createTechItem = (tech) => {
 const calculateDimensions = (carousel) => {
   totalWidth = carousel.scrollWidth;
   containerWidth = carousel.parentElement.offsetWidth;
+  // Mettre à jour la largeur d'un élément en fonction de la taille d'écran
+  const techItems = carousel.querySelectorAll(".tech-item");
+  if (techItems.length > 0) {
+    const firstItem = techItems[0];
+    const itemStyle = window.getComputedStyle(firstItem);
+    itemWidth = firstItem.offsetWidth + parseInt(itemStyle.marginRight || "16");
+  }
+
+  // Démarrer avec un décalage d'un élément pour éviter le rognage
+  if (currentPosition === 0) {
+    currentPosition = itemWidth;
+    carousel.style.transform = `translateX(-${currentPosition}px)`;
+  }
 };
 
-// Défilement continu avec retour au début
+// Navigation manuelle du carrousel
+const navigateCarousel = (direction, carousel, progressBar) => {
+  // Calculer les limites avec décalage pour éviter le rognage
+  const minPosition = itemWidth; // Commence après le premier élément
+  const maxPosition = Math.max(
+    minPosition,
+    totalWidth - containerWidth + itemWidth
+  ); // Finit avant le dernier élément
+
+  // Calculer la nouvelle position basée sur la largeur d'un élément
+  let newPosition = currentPosition + direction * itemWidth;
+
+  // Gérer les limites avec navigation circulaire
+  if (direction > 0) {
+    // Aller vers la droite
+    if (newPosition >= maxPosition) {
+      newPosition = minPosition; // Retourner au début (avec décalage)
+    }
+  } else {
+    // Aller vers la gauche
+    if (newPosition < minPosition) {
+      newPosition = maxPosition - itemWidth; // Aller vers la fin (avec décalage)
+    }
+  }
+
+  currentPosition = newPosition;
+
+  // Appliquer la transition avec animation
+  carousel.style.transition = "transform 0.3s ease";
+  carousel.style.transform = `translateX(-${currentPosition}px)`;
+
+  // Retirer la transition après l'animation pour le défilement automatique
+  setTimeout(() => {
+    carousel.style.transition = "";
+  }, 300);
+
+  updateCarouselProgress(progressBar);
+};
+
+// Défilement continu automatique
 const startContinuousScroll = (carousel, progressBar) => {
+  if (isHovered) return;
+
+  stopContinuousScroll();
+
   const scroll = () => {
+    if (isHovered) return;
+
     currentPosition += scrollSpeed;
 
-    // Calculer la distance maximale de défilement
-    const maxScroll = totalWidth - containerWidth;
+    // Calculer les limites avec décalage
+    const minPosition = itemWidth;
+    const maxPosition = Math.max(
+      minPosition,
+      totalWidth - containerWidth + itemWidth
+    );
 
-    // Si on atteint la fin, retourner au début avec une transition fluide
-    if (currentPosition >= maxScroll) {
-      currentPosition = 0;
+    // Si on atteint la fin, retourner au début (avec décalage)
+    if (currentPosition >= maxPosition) {
+      currentPosition = minPosition;
     }
 
     carousel.style.transform = `translateX(-${currentPosition}px)`;
-    updateCarouselProgress(progressBar, maxScroll);
+    updateCarouselProgress(progressBar);
 
     animationId = requestAnimationFrame(scroll);
   };
 
-  scroll();
+  animationId = requestAnimationFrame(scroll);
 };
 
-// Mettre à jour la barre de progression du carrousel
-const updateCarouselProgress = (progressBar, maxScroll) => {
-  if (maxScroll <= 0) {
+// Arrêter le défilement automatique
+const stopContinuousScroll = () => {
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+};
+
+// Mettre à jour la barre de progression
+const updateCarouselProgress = (progressBar) => {
+  const minPosition = itemWidth;
+  const maxPosition = Math.max(
+    minPosition,
+    totalWidth - containerWidth + itemWidth
+  );
+  const scrollRange = maxPosition - minPosition;
+
+  if (scrollRange <= 0) {
     progressBar.style.width = "100%";
     return;
   }
 
-  const progress = (currentPosition / maxScroll) * 100;
-  progressBar.style.width = `${Math.min(100, progress)}%`;
-};
-
-// Mettre à jour la barre de progression de vitesse
-const updateProgressBar = (progressBar) => {
-  // Cette fonction peut être utilisée pour d'autres indicateurs si nécessaire
-  console.log(`Vitesse actuelle: ${scrollSpeed}`);
+  const adjustedPosition = currentPosition - minPosition;
+  const progress = (adjustedPosition / scrollRange) * 100;
+  progressBar.style.width = `${Math.max(0, Math.min(100, progress))}%`;
 };
 
 export { initCarousel };

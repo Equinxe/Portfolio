@@ -5,8 +5,11 @@ import { initSkills } from "./component/skills.js";
 import { initProjects } from "./component/projects.js";
 import { initContactForm } from "./component/form.js";
 import { loadData } from "./component/data.js";
+import { resize, start } from "./component/space-bg.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  resize();
+  start();
   const data = await loadData();
 
   initTheme();
