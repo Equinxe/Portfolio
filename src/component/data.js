@@ -58,9 +58,18 @@ const skillsData = {
 const projectsData = [
   {
     title: "Sylverra, The last Sylphsong",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: ["Lua", "Love2D", "Personnal project"],
+    description:
+      "Sylverra, The Last Skysong est un RPG 2D inspiré de la série Zelda. Le jeu propose six mondes aux ambiances et mécaniques uniques, avec un système d’inventaire permettant au joueur de collecter, équiper et utiliser des objets pour progresser. Chaque niveau introduit de nouveaux défis, entre exploration, combat et énigmes.",
+    image: "static/img/Sylverra.png",
+    tags: [
+      "Work In Progress",
+      "Personnal project",
+      "Lua",
+      "Love2D",
+
+      "Tiled",
+      "Aseprite",
+    ],
     links: [
       { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
       {
