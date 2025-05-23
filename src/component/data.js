@@ -30,7 +30,7 @@ const skillsData = {
     { name: "TypeScript", level: 50, icon: "fab fa-js" },
     { name: "Python", level: 75, icon: "fab fa-python" },
     { name: "PHP", level: 30, icon: "fab fa-php" },
-    { name: "Lua", level: 90, icon: "fab fa-lua" },
+    { name: "Lua", level: 90, icon: "fas fa-moon" },
     { name: "Golang", level: 70, icon: "fab fa-golang" },
   ],
   frameworks: [
@@ -43,7 +43,7 @@ const skillsData = {
     { name: "Git & GitHub", level: 90, icon: "fab fa-git-alt" },
     { name: "Docker", level: 75, icon: "fab fa-docker" },
     { name: "Makefile", level: 75, icon: "fa-solid fa-file " },
-    { name: "Vite", level: 80, icon: "" },
+    { name: "Vite", level: 80, icon: "fas fa-bolt" },
     { name: "Prettier", level: 95, icon: "fa-solid fa-p" },
     { name: "VS Code", level: 95, icon: "fa-solid fa-code" },
   ],
