@@ -682,7 +682,7 @@ body {
 .slider-controls button {
   background-color: rgba(0, 0, 0, 0);
   border: none;
-  color: white;
+  color: var(--color-orange);
   font-size: 1.2rem;
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
@@ -704,19 +704,7 @@ body {
 }
 
 .progress-dot.active {
-  background-color: #fff;
-}
-
-.close-btn {
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  font-size: 32px;
-  color: white;
-  background: #333;
-  border-radius: 50%;
-  padding: 0.3em 0.6em;
-  cursor: pointer;
+  background-color: var(--color-orange);
 }
 
 .prev-btn,
@@ -725,18 +713,11 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 40px;
-  background: none;
-  color: white;
+  background: rgba(0, 0, 0, 0);
+  color: var(--color-orange);
   border: none;
   cursor: pointer;
   user-select: none;
-}
-
-.prev-btn {
-  left: -50px;
-}
-.next-btn {
-  right: -50px;
 }
 
 #mediaModal {
@@ -769,25 +750,25 @@ body {
 }
 #modalCloseBtn {
   position: absolute;
-  top: 0;
+  top: -0.7rem;
   right: 0;
-  font-size: 2rem;
-  background: none;
-  color: white;
+  font-size: 3rem;
+  background: rgba(0, 0, 0, 0);
+  color: var(--color-orange);
   border: none;
   cursor: pointer;
 }
 .modal-nav {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 .modal-nav button {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: rgba(255, 255, 255, 0);
+  color: var(--color-orange);
   border: none;
   font-size: 2rem;
   cursor: pointer;
