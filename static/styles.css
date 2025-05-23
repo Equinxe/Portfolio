@@ -573,6 +573,226 @@ body {
   color: #ff8d20;
 }
 
+.project-media-slider {
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+}
+
+.project-media-slider img,
+.project-media-slider video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+.project-media-slider .active {
+  display: block;
+}
+
+.fullscreen-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 10px;
+}
+
+.slider-nav button {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  pointer-events: all;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.slider-timer-bar {
+  height: 4px;
+  background-color: #e0e0e0;
+  width: 100%;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background-color: var(--color-orange);
+  transition: width 3s linear;
+}
+
+.slider-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.slider-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  background: #111;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.slider-media-container img,
+.slider-media-container video {
+  max-width: 100%;
+  max-height: 80vh;
+  display: block;
+  margin: auto;
+  border-radius: 6px;
+}
+
+.slider-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.slider-controls button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.slider-progress {
+  display: flex;
+  gap: 5px;
+}
+
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #aaa;
+  transition: background-color 0.2s;
+}
+
+.progress-dot.active {
+  background-color: #fff;
+}
+
+.close-btn {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  font-size: 32px;
+  color: white;
+  background: #333;
+  border-radius: 50%;
+  padding: 0.3em 0.6em;
+  cursor: pointer;
+}
+
+.prev-btn,
+.next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 40px;
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.prev-btn {
+  left: -50px;
+}
+.next-btn {
+  right: -50px;
+}
+
+#mediaModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+#mediaModal.active {
+  display: flex;
+}
+#mediaModal .modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+}
+.modal-media {
+  max-width: 100%;
+  max-height: 80vh;
+  display: none;
+}
+.modal-media.active {
+  display: block;
+}
+#modalCloseBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 2rem;
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.modal-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.modal-nav button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
 /* ===================
    CONTACT SECTION
    =================== */
@@ -679,7 +899,7 @@ body {
 }
 
 textarea.form-control {
-  height: 10rem;
+  height: rem;
 }
 
 .form-submit {

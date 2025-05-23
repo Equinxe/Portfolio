@@ -63,7 +63,13 @@ const projectsData = [
     title: "Sylverra, The last Sylphsong",
     description:
       "Sylverra, The Last Skysong est un RPG 2D inspiré de la série Zelda. Le jeu propose six mondes aux ambiances et mécaniques uniques, avec un système d’inventaire permettant au joueur de collecter, équiper et utiliser des objets pour progresser. Chaque niveau introduit de nouveaux défis, entre exploration, combat et énigmes.",
-    image: "static/img/Sylverra.png",
+    media: [
+      { type: "image", src: "static/img/Sylverra.png" },
+      { type: "image", src: "static/img/PhotoMoi.jpg" },
+      { type: "image", src: "static/img/Sylverra.png" },
+      { type: "video", src: "" },
+    ],
+
     tags: [
       "Work In Progress",
       "Personnal project",
@@ -85,7 +91,11 @@ const projectsData = [
     title: "Portfolio Personnel",
     description:
       "Un portfolio dynamique et responsive pour présenter mes projets et compétences avec un système de thème clair/sombre, des animations spatiales et une interface moderne.",
-    image: "/api/placeholder/600/400",
+    media: [
+      { type: "image", src: "" },
+      { type: "video", src: "" },
+    ],
+
     tags: ["HTML5", "CSS3", "JavaScript", "Responsive", "Animations"],
     links: [
       { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
@@ -100,7 +110,11 @@ const projectsData = [
     title: "Roblox x Rolex",
     description:
       "Un simulateur Roblox innovant avec des mécaniques de progression uniques et une interface utilisateur soignée.",
-    image: "/api/placeholder/600/400",
+    media: [
+      { type: "image", src: "" },
+      { type: "video", src: "" },
+    ],
+
     tags: ["Roblox", "Lua", "Game Development", "UI/UX"],
     links: [
       { name: "Jouer", url: "#", icon: "fas fa-gamepad" },
@@ -112,7 +126,11 @@ const projectsData = [
     title: "Roblox x Kinder",
     description:
       "Second simulateur Roblox avec des fonctionnalités avancées et un système de récompenses élaboré.",
-    image: "/api/placeholder/600/400",
+    media: [
+      { type: "image", src: "" },
+      { type: "video", src: "" },
+    ],
+
     tags: ["Roblox", "Lua", "Game Development", "Scripting", "MotionDesign"],
     links: [
       { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
