@@ -66,7 +66,6 @@ const projectsData = [
       "Personnal project",
       "Lua",
       "Love2D",
-
       "Tiled",
       "Aseprite",
     ],
@@ -117,6 +116,86 @@ const projectsData = [
     tags: [""],
     links: [
       { name: "Voir la démo", url: "#", icon: "fas fa-play-circle" },
+      { name: "Code Source", url: "#", icon: "fab fa-github" },
+    ],
+  },
+  {
+    title: "",
+    description: "",
+    image: "/api/placeholder/600/400",
+    tags: [""],
+    links: [
+      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
+      { name: "Code Source", url: "#", icon: "fab fa-github" },
+    ],
+  },
+  {
+    title: "",
+    description: "",
+    image: "/api/placeholder/600/400",
+    tags: [""],
+    links: [
+      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
+      { name: "Code Source", url: "#", icon: "fab fa-github" },
+    ],
+  },
+  {
+    title: "",
+    description: "",
+    image: "/api/placeholder/600/400",
+    tags: [""],
+    links: [
+      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
+      { name: "Code Source", url: "#", icon: "fab fa-github" },
+    ],
+  },
+  {
+    title: "",
+    description: "",
+    image: "/api/placeholder/600/400",
+    tags: [""],
+    links: [
+      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
+      { name: "Code Source", url: "#", icon: "fab fa-github" },
+    ],
+  },
+  {
+    title: "",
+    description: "",
+    image: "/api/placeholder/600/400",
+    tags: [""],
+    links: [
+      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
+      { name: "Code Source", url: "#", icon: "fab fa-github" },
+    ],
+  },
+  {
+    title: "",
+    description: "",
+    image: "/api/placeholder/600/400",
+    tags: [""],
+    links: [
+      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
+      { name: "Code Source", url: "#", icon: "fab fa-github" },
+    ],
+  },
+  {
+    title: "",
+    description: "",
+    image: "/api/placeholder/600/400",
+    tags: [""],
+    links: [
+      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
+      { name: "Code Source", url: "#", icon: "fab fa-github" },
+    ],
+  },
+  {
+    title: "",
+    description: "",
+    image: "/api/placeholder/600/400",
+    tags: [""],
+    links: [
+      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
       { name: "Code Source", url: "#", icon: "fab fa-github" },
     ],
   },

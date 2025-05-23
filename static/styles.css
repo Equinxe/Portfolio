@@ -269,7 +269,6 @@ body {
   position: relative;
   overflow: hidden;
   max-width: 100%;
-  background-color: var(--color-bg-secondary), 0;
   border-radius: 15px;
   padding: 1rem;
 }
@@ -670,13 +669,17 @@ body {
   border-radius: 4px;
   color: var(--color-text);
   font-family: var(--font-sans);
-  resize: vertical;
+  resize: none;
   transition: border-color 0.3s ease;
 }
 
 .form-control:focus {
   outline: none;
   border-color: var(--color-orange);
+}
+
+textarea.form-control {
+  height: 10rem;
 }
 
 .form-submit {

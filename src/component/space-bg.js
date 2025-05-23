@@ -88,7 +88,6 @@ export function resize() {
 }
 
 window.addEventListener("resize", resize);
-resize();
 
 // Parallax sur mouvement souris
 window.addEventListener("mousemove", (e) => {
