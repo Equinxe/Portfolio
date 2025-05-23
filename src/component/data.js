@@ -8,16 +8,19 @@ const techCarouselData = [
   { name: "HTML5", icon: "fab fa-html5" },
   { name: "CSS3", icon: "fab fa-css3-alt" },
   { name: "JavaScript", icon: "fab fa-js" },
-  { name: "React", icon: "fab fa-react" },
-  { name: "Node.js", icon: "fab fa-node-js" },
-  { name: "Vue.js", icon: "fab fa-vuejs" },
-  { name: "Angular", icon: "fab fa-angular" },
+  { name: "TypeScript", icon: "fab fa-js" },
   { name: "Python", icon: "fab fa-python" },
-  { name: "WordPress", icon: "fab fa-wordpress" },
+  { name: "PHP", icon: "fab fa-php" },
+  { name: "Lua", icon: "fas fa-moon" },
+  { name: "Golang", icon: "fab fa-golang" },
+  { name: "React", icon: "fab fa-react" },
+  { name: "Vue.js", icon: "fab fa-vuejs" },
+  { name: "Node.js", icon: "fab fa-node-js" },
+  { name: "Love2D", icon: "fas fa-heart" },
   { name: "Git", icon: "fab fa-git-alt" },
   { name: "Docker", icon: "fab fa-docker" },
-  { name: "Golang", icon: "fab fa-golang" },
-  { name: "Lua", icon: "fab fa-lua" },
+  { name: "VS Code", icon: "fas fa-code" },
+  { name: "Vite", icon: "fas fa-bolt" },
 ];
 
 // Données des compétences
@@ -42,7 +45,7 @@ const skillsData = {
     { name: "Makefile", level: 75, icon: "fa-solid fa-file " },
     { name: "Vite", level: 80, icon: "" },
     { name: "Prettier", level: 95, icon: "fa-solid fa-p" },
-    { name: "Visual Studio Code", level: 95, icon: "fa-solid fa-code" },
+    { name: "VS Code", level: 95, icon: "fa-solid fa-code" },
   ],
   softSkills: [
     { name: "Travail d'équipe", level: 95, icon: "fas fa-users" },
@@ -50,7 +53,7 @@ const skillsData = {
     { name: "Résolution de problèmes", level: 95, icon: "fas fa-puzzle-piece" },
     { name: "Gestion du temps", level: 85, icon: "fas fa-clock" },
     { name: "Adaptabilité", level: 90, icon: "fas fa-sync-alt" },
-    { name: "Créativité", level: 80, icon: "fa-regular fa-circle-plus" },
+    { name: "Créativité", level: 80, icon: "fas fa-lightbulb" },
   ],
 };
 
@@ -81,143 +84,41 @@ const projectsData = [
   {
     title: "Portfolio Personnel",
     description:
-      "Un portfolio dynamique et responsive pour présenter mes projets et compétences avec un système de thème clair/sombre.",
+      "Un portfolio dynamique et responsive pour présenter mes projets et compétences avec un système de thème clair/sombre, des animations spatiales et une interface moderne.",
     image: "/api/placeholder/600/400",
-    tags: ["HTML5", "CSS3", "JavaScript", "Responsive"],
+    tags: ["HTML5", "CSS3", "JavaScript", "Responsive", "Animations"],
+    links: [
+      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
+      {
+        name: "Code Source",
+        url: "https://github.com/Equinxe/Portfolio",
+        icon: "fab fa-github",
+      },
+    ],
+  },
+  {
+    title: "Roblox x Rolex",
+    description:
+      "Un simulateur Roblox innovant avec des mécaniques de progression uniques et une interface utilisateur soignée.",
+    image: "/api/placeholder/600/400",
+    tags: ["Roblox", "Lua", "Game Development", "UI/UX"],
+    links: [
+      { name: "Jouer", url: "#", icon: "fas fa-gamepad" },
+      { name: "Code Source", url: "#", icon: "fab fa-github" },
+    ],
+    featured: true,
+  },
+  {
+    title: "Roblox x Kinder",
+    description:
+      "Second simulateur Roblox avec des fonctionnalités avancées et un système de récompenses élaboré.",
+    image: "/api/placeholder/600/400",
+    tags: ["Roblox", "Lua", "Game Development", "Scripting", "MotionDesign"],
     links: [
       { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
       { name: "Code Source", url: "#", icon: "fab fa-github" },
     ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "", url: "#", icon: "" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir la démo", url: "#", icon: "fas fa-play-circle" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
-  },
-  {
-    title: "",
-    description: "",
-    image: "/api/placeholder/600/400",
-    tags: [""],
-    links: [
-      { name: "Voir le site", url: "#", icon: "fas fa-external-link-alt" },
-      { name: "Code Source", url: "#", icon: "fab fa-github" },
-    ],
+    featured: true,
   },
 ];
 
