@@ -160,7 +160,19 @@ const projectsData = [
     description:
       "Second simulateur Roblox avec des fonctionnalités avancées et un système de récompenses élaboré.",
     media: [
-      { type: "image", src: "static/img/project/kinder11.png" },
+      { type: "image", src: "static/img/project/worldmap.png" },
+      { type: "image", src: "static/img/project/firstmvpmap1.png" },
+      { type: "image", src: "static/img/project/kinder-kingmap.png" },
+      { type: "image", src: "static/img/project/world.png" },
+      { type: "image", src: "static/img/project/underwater.png" },
+      { type: "image", src: "static/img/project/underwater1.png" },
+      { type: "image", src: "static/img/project/insidemap1.png" },
+      { type: "image", src: "static/img/project/insidemap1-2.png" },
+      { type: "image", src: "static/img/project/collectible1.png" },
+      { type: "image", src: "static/img/project/collectible2.png" },
+      { type: "image", src: "static/img/project/Menuing.png" },
+      { type: "image", src: "static/img/project/Inventory.png" },
+
       { type: "video", src: "static/img/project/rolls.mp4" },
       { type: "video", src: "static/img/project/sword.mp4" },
     ],
