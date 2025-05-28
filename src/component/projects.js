@@ -48,12 +48,12 @@ const populateProjects = (container) => {
       <div class="slider-controls">
         <button class="slider-prev">&#10094;</button>
         <div class="slider-progress" data-count="${project.media.length}">
-        ${project.media
-          .map(
-            (_, i) =>
-              `<div class="progress-dot ${i === 0 ? "active" : ""}"></div>`
-          )
-          .join("")}
+          ${project.media
+            .map(
+              (_, i) =>
+                `<div class="progress-dot ${i === 0 ? "active" : ""}"></div>`
+            )
+            .join("")}
         </div>
         <button class="slider-next">&#10095;</button>
       </div>
@@ -72,6 +72,12 @@ const populateProjects = (container) => {
   });
 };
 
+const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  seconds = Math.floor(seconds % 60);
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+};
+
 const setupSlider = (slider) => {
   let currentIndex = 0;
   const medias = slider.querySelectorAll(".project-media");
@@ -82,8 +88,8 @@ const setupSlider = (slider) => {
 
   let slideTimeout;
   let isActive = false;
-  let pausedAt = null; // Stocker le moment où on a mis en pause
-  let totalDuration = null; // Stocker la durée totale du média actuel
+  let pausedAt = null;
+  let totalDuration = null;
 
   const startTimerAnimation = (remainingDuration, startPercent = 0) => {
     timerBar.style.transition = "none";
@@ -103,7 +109,7 @@ const setupSlider = (slider) => {
 
     slideTimeout = setTimeout(() => {
       if (isActive) {
-        pausedAt = null; // Reset quand on change de slide
+        pausedAt = null;
         nextSlide();
       }
     }, duration);
@@ -117,7 +123,7 @@ const setupSlider = (slider) => {
       if (el.tagName === "VIDEO") {
         if (i === currentIndex) {
           if (!resumeFromPause) {
-            el.currentTime = 0; // Reset seulement si ce n'est pas une reprise
+            el.currentTime = 0;
           }
           el.play();
         } else {
@@ -134,7 +140,6 @@ const setupSlider = (slider) => {
     const activeMedia = medias[currentIndex];
 
     if (resumeFromPause && pausedAt !== null) {
-      // Reprendre depuis la pause
       const elapsed = pausedAt;
       const remaining = totalDuration - elapsed;
       const progressPercent = (elapsed / totalDuration) * 100;
@@ -144,36 +149,67 @@ const setupSlider = (slider) => {
       return;
     }
 
-    // Nouveau slide ou première lecture
     let duration = SLIDE_INTERVAL;
 
     if (activeMedia.tagName === "VIDEO") {
-      if (activeMedia.duration && !isNaN(activeMedia.duration)) {
-        duration = activeMedia.duration * 1000;
-        totalDuration = duration;
-      } else {
-        const handleLoadedMetadata = () => {
-          if (isActive && currentIndex === index) {
-            const videoDuration = activeMedia.duration * 1000;
-            totalDuration = videoDuration;
-            startTimerAnimation(videoDuration);
-            scheduleNextSlide(videoDuration);
+      const updateDuration = () => {
+        if (activeMedia.duration && !isNaN(activeMedia.duration)) {
+          duration = activeMedia.duration * 1000;
+          totalDuration = duration;
+
+          // Update the duration display
+          const durationDisplay =
+            slider.parentElement.querySelector(".video-duration");
+          if (durationDisplay) {
+            durationDisplay.textContent = formatTime(activeMedia.duration);
           }
-          activeMedia.removeEventListener(
-            "loadedmetadata",
-            handleLoadedMetadata
-          );
-        };
-        activeMedia.addEventListener("loadedmetadata", handleLoadedMetadata);
-        duration = SLIDE_INTERVAL;
-        totalDuration = duration;
+
+          startTimerAnimation(duration);
+          if (isActive) {
+            scheduleNextSlide(duration);
+          }
+        }
+      };
+
+      // Set up timeupdate handler for current time
+      const updateCurrentTime = () => {
+        const currentTimeDisplay = slider.parentElement.querySelector(
+          ".video-current-time"
+        );
+        if (currentTimeDisplay) {
+          currentTimeDisplay.textContent = formatTime(activeMedia.currentTime);
+        }
+      };
+
+      // Remove existing listeners to avoid duplicates
+      activeMedia.removeEventListener("loadedmetadata", updateDuration);
+      activeMedia.removeEventListener("timeupdate", updateCurrentTime);
+
+      // Add the listeners
+      activeMedia.addEventListener("loadedmetadata", updateDuration);
+      activeMedia.addEventListener("timeupdate", updateCurrentTime);
+
+      // If duration is already available, update immediately
+      if (activeMedia.duration && !isNaN(activeMedia.duration)) {
+        updateDuration();
       }
+
+      // Start with default duration until video metadata is loaded
+      duration = SLIDE_INTERVAL;
+      totalDuration = duration;
     } else {
       totalDuration = duration;
+
+      // Reset time displays for non-video media
+      const timeDisplays =
+        slider.parentElement.querySelectorAll(".video-time span");
+      timeDisplays.forEach((display) => {
+        display.textContent = "0:00";
+      });
     }
 
     startTimerAnimation(duration);
-    pausedAt = null; // Reset du temps de pause
+    pausedAt = null;
 
     if (isActive) {
       scheduleNextSlide(duration);
@@ -195,10 +231,8 @@ const setupSlider = (slider) => {
     isActive = true;
 
     if (pausedAt !== null) {
-      // Reprendre depuis la pause
       showSlide(currentIndex, true);
     } else {
-      // Nouveau démarrage
       showSlide(currentIndex);
     }
   };
@@ -206,13 +240,11 @@ const setupSlider = (slider) => {
   const stopAutoSlide = () => {
     isActive = false;
 
-    // TOUJOURS recalculer la position actuelle à chaque pause
     if (totalDuration) {
       const activeMedia = medias[currentIndex];
       if (activeMedia.tagName === "VIDEO") {
-        pausedAt = activeMedia.currentTime * 1000; // Position actuelle de la vidéo
+        pausedAt = activeMedia.currentTime * 1000;
       } else {
-        // Pour les images, calculer basé sur la progression de la barre
         const computedStyle = window.getComputedStyle(timerBar);
         const currentWidth = parseFloat(computedStyle.width);
         const parentWidth = parseFloat(
@@ -228,14 +260,12 @@ const setupSlider = (slider) => {
       slideTimeout = null;
     }
 
-    // Pause les vidéos
     medias.forEach((el) => {
       if (el.tagName === "VIDEO") {
         el.pause();
       }
     });
 
-    // STOPPER complètement l'animation CSS et figer la barre à sa position actuelle
     if (pausedAt !== null && totalDuration) {
       const currentProgressPercent = (pausedAt / totalDuration) * 100;
       timerBar.style.transition = "none";
@@ -288,11 +318,23 @@ const setupModal = () => {
   modal.id = "mediaModal";
   modal.innerHTML = `
     <div class="modal-content">
-      <button id="modalCloseBtn">&times;</button>
-      <div id="modalSlider"></div>
-      <div class="modal-nav">
-        <button id="modalPrev">&#10094;</button>
-        <button id="modalNext">&#10095;</button>
+      <button id="modalCloseBtn" class="modal-close">&times;</button>
+      <button id="modalPrev" class="modal-nav-btn modal-nav-left">&#10094;</button>
+      <div id="modalSlider" class="modal-slider"></div>
+      <button id="modalNext" class="modal-nav-btn modal-nav-right">&#10095;</button>
+      <div class="modal-video-controls">
+        <div class="video-progress-container">
+          <div class="video-progress-bar">
+            <div class="video-progress-filled"></div>
+          </div>
+          <div class="video-time">
+            <span class="video-current-time">0:00</span>
+            <span class="video-duration">0:00</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-preview">
+        <div id="modalPreviewContainer" class="modal-preview-container"></div>
       </div>
     </div>
   `;
@@ -302,6 +344,15 @@ const setupModal = () => {
     modal.classList.remove("active");
   document.getElementById("modalPrev").onclick = () => changeModalSlide(-1);
   document.getElementById("modalNext").onclick = () => changeModalSlide(1);
+
+  // Add keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    if (!modal.classList.contains("active")) return;
+
+    if (e.key === "Escape") modal.classList.remove("active");
+    if (e.key === "ArrowLeft") changeModalSlide(-1);
+    if (e.key === "ArrowRight") changeModalSlide(1);
+  });
 };
 
 let modalMedias = [],
@@ -309,14 +360,60 @@ let modalMedias = [],
 
 const openModal = (mediaElements) => {
   const container = document.getElementById("modalSlider");
+  const previewContainer = document.getElementById("modalPreviewContainer");
   container.innerHTML = "";
+  previewContainer.innerHTML = "";
   modalMedias = mediaElements;
   modalIndex = 0;
 
+  // Add main media elements
   mediaElements.forEach((el) => {
     el.classList.remove("active");
     el.classList.add("modal-media");
     container.appendChild(el);
+
+    // Create and add preview thumbnails
+    const thumbnail = document.createElement("div");
+    thumbnail.className = "modal-thumbnail";
+
+    if (el.tagName === "VIDEO") {
+      // Create a canvas element to capture the video thumbnail
+      const canvas = document.createElement("canvas");
+      const video = el.cloneNode(true);
+
+      // Set up video for thumbnail capture
+      video.muted = true;
+      video.currentTime = 1; // Skip to 1 second to avoid black frame
+
+      // Once the video data is loaded, capture the thumbnail
+      video.addEventListener("loadeddata", () => {
+        // Set canvas size to match video dimensions
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // Draw the video frame on the canvas
+        canvas
+          .getContext("2d")
+          .drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Use the canvas as the thumbnail background
+        thumbnail.style.backgroundImage = `url(${canvas.toDataURL()})`;
+      });
+
+      // Load the video to trigger the loadeddata event
+      video.load();
+    } else {
+      // For images, use the direct source
+      thumbnail.style.backgroundImage = `url(${el.src})`;
+    }
+
+    previewContainer.appendChild(thumbnail);
+
+    // Add click event to thumbnails
+    thumbnail.addEventListener("click", () => {
+      modalIndex = Array.from(previewContainer.children).indexOf(thumbnail);
+      showModalSlide(modalIndex);
+    });
   });
 
   document.getElementById("mediaModal").classList.add("active");
@@ -327,8 +424,63 @@ const showModalSlide = (index) => {
   modalMedias.forEach((el, i) => {
     el.classList.toggle("active", i === index);
     if (el.tagName === "VIDEO") {
-      el[i === index ? "play" : "pause"]();
+      if (i === index) {
+        el.play();
+        setupVideoProgress(el);
+      } else {
+        el.pause();
+        el.currentTime = 0;
+      }
+    } else {
+      // Reset video controls for non-video media
+      document.querySelector(".modal-content").classList.remove("has-video");
+      const currentTimeEl = document.querySelector(".video-current-time");
+      const durationEl = document.querySelector(".video-duration");
+      if (currentTimeEl) currentTimeEl.textContent = "0:00";
+      if (durationEl) durationEl.textContent = "0:00";
     }
+  });
+
+  // Update thumbnails
+  const thumbnails = document.querySelectorAll(".modal-thumbnail");
+  thumbnails.forEach((thumb, i) => {
+    thumb.classList.toggle("active", i === index);
+  });
+};
+
+const setupVideoProgress = (video) => {
+  const modalContent = document.querySelector(".modal-content");
+  const progressBar = document.querySelector(".video-progress-bar");
+  const progressFilled = document.querySelector(".video-progress-filled");
+  const currentTimeEl = document.querySelector(".video-current-time");
+  const durationEl = document.querySelector(".video-duration");
+
+  // Show video controls
+  modalContent.classList.add("has-video");
+
+  // Update duration immediately if available
+  if (video.duration) {
+    durationEl.textContent = formatTime(video.duration);
+  }
+
+  // Update duration when metadata is loaded
+  video.addEventListener("loadedmetadata", () => {
+    durationEl.textContent = formatTime(video.duration);
+  });
+
+  // Update progress bar and current time as video plays
+  video.addEventListener("timeupdate", () => {
+    const percent = (video.currentTime / video.duration) * 100;
+    progressFilled.style.width = `${percent}%`;
+    currentTimeEl.textContent = formatTime(video.currentTime);
+    durationEl.textContent = formatTime(video.duration); // Mise à jour continue
+  });
+
+  // Click handling for progress bar
+  progressBar.addEventListener("click", (e) => {
+    const progressRect = progressBar.getBoundingClientRect();
+    const percent = (e.clientX - progressRect.left) / progressRect.width;
+    video.currentTime = percent * video.duration;
   });
 };
 
