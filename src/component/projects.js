@@ -1,6 +1,6 @@
 import { projectsData } from "./data.js";
 
-const SLIDE_INTERVAL = 2000; // 2 secondes
+const SLIDE_INTERVAL = 2000; // 2 secondes pour les images
 
 const initProjects = () => {
   const projectsGrid = document.getElementById("projectsGrid");
@@ -80,27 +80,50 @@ const setupSlider = (slider) => {
   const prevBtn = slider.parentElement.querySelector(".slider-prev");
   const nextBtn = slider.parentElement.querySelector(".slider-next");
 
-  let interval;
-  let isHovering = false;
+  let slideTimeout;
+  let isActive = false;
+  let pausedAt = null; // Stocker le moment où on a mis en pause
+  let totalDuration = null; // Stocker la durée totale du média actuel
 
-  const startTimerAnimation = (duration) => {
+  const startTimerAnimation = (remainingDuration, startPercent = 0) => {
     timerBar.style.transition = "none";
-    timerBar.style.width = "0%";
+    timerBar.style.width = `${startPercent}%`;
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        timerBar.style.transition = `width ${duration}ms linear`;
+        timerBar.style.transition = `width ${remainingDuration}ms linear`;
         timerBar.style.width = "100%";
       });
     });
   };
 
-  const showSlide = (index) => {
+  const scheduleNextSlide = (duration) => {
+    if (slideTimeout) {
+      clearTimeout(slideTimeout);
+    }
+
+    slideTimeout = setTimeout(() => {
+      if (isActive) {
+        pausedAt = null; // Reset quand on change de slide
+        nextSlide();
+      }
+    }, duration);
+  };
+
+  const showSlide = (index, resumeFromPause = false) => {
     currentIndex = index;
 
     medias.forEach((el, i) => {
       el.classList.toggle("active", i === currentIndex);
       if (el.tagName === "VIDEO") {
-        el[i === currentIndex ? "play" : "pause"]();
+        if (i === currentIndex) {
+          if (!resumeFromPause) {
+            el.currentTime = 0; // Reset seulement si ce n'est pas une reprise
+          }
+          el.play();
+        } else {
+          el.pause();
+          el.currentTime = 0;
+        }
       }
     });
 
@@ -109,37 +132,115 @@ const setupSlider = (slider) => {
     });
 
     const activeMedia = medias[currentIndex];
-    const duration =
-      activeMedia.tagName === "VIDEO"
-        ? Math.max(
-            activeMedia.duration * 1000 || SLIDE_INTERVAL,
-            SLIDE_INTERVAL
-          )
-        : SLIDE_INTERVAL;
+
+    if (resumeFromPause && pausedAt !== null) {
+      // Reprendre depuis la pause
+      const elapsed = pausedAt;
+      const remaining = totalDuration - elapsed;
+      const progressPercent = (elapsed / totalDuration) * 100;
+
+      startTimerAnimation(remaining, progressPercent);
+      scheduleNextSlide(remaining);
+      return;
+    }
+
+    // Nouveau slide ou première lecture
+    let duration = SLIDE_INTERVAL;
+
+    if (activeMedia.tagName === "VIDEO") {
+      if (activeMedia.duration && !isNaN(activeMedia.duration)) {
+        duration = activeMedia.duration * 1000;
+        totalDuration = duration;
+      } else {
+        const handleLoadedMetadata = () => {
+          if (isActive && currentIndex === index) {
+            const videoDuration = activeMedia.duration * 1000;
+            totalDuration = videoDuration;
+            startTimerAnimation(videoDuration);
+            scheduleNextSlide(videoDuration);
+          }
+          activeMedia.removeEventListener(
+            "loadedmetadata",
+            handleLoadedMetadata
+          );
+        };
+        activeMedia.addEventListener("loadedmetadata", handleLoadedMetadata);
+        duration = SLIDE_INTERVAL;
+        totalDuration = duration;
+      }
+    } else {
+      totalDuration = duration;
+    }
 
     startTimerAnimation(duration);
+    pausedAt = null; // Reset du temps de pause
+
+    if (isActive) {
+      scheduleNextSlide(duration);
+    }
   };
 
-  const nextSlide = () => showSlide((currentIndex + 1) % medias.length);
-  const prevSlide = () =>
+  const nextSlide = () => {
+    pausedAt = null;
+    showSlide((currentIndex + 1) % medias.length);
+  };
+
+  const prevSlide = () => {
+    pausedAt = null;
     showSlide((currentIndex - 1 + medias.length) % medias.length);
+  };
 
   const startAutoSlide = () => {
-    if (interval) return;
-    isHovering = true;
-    showSlide(currentIndex); // Always refresh on enter
-    interval = setInterval(nextSlide, SLIDE_INTERVAL);
+    if (isActive) return;
+    isActive = true;
+
+    if (pausedAt !== null) {
+      // Reprendre depuis la pause
+      showSlide(currentIndex, true);
+    } else {
+      // Nouveau démarrage
+      showSlide(currentIndex);
+    }
   };
 
   const stopAutoSlide = () => {
-    isHovering = false;
-    clearInterval(interval);
-    interval = null;
-    timerBar.style.transition = "none";
-    timerBar.style.width = "0%";
+    isActive = false;
+
+    // TOUJOURS recalculer la position actuelle à chaque pause
+    if (totalDuration) {
+      const activeMedia = medias[currentIndex];
+      if (activeMedia.tagName === "VIDEO") {
+        pausedAt = activeMedia.currentTime * 1000; // Position actuelle de la vidéo
+      } else {
+        // Pour les images, calculer basé sur la progression de la barre
+        const computedStyle = window.getComputedStyle(timerBar);
+        const currentWidth = parseFloat(computedStyle.width);
+        const parentWidth = parseFloat(
+          window.getComputedStyle(timerBar.parentElement).width
+        );
+        const progressPercent = (currentWidth / parentWidth) * 100;
+        pausedAt = (progressPercent / 100) * totalDuration;
+      }
+    }
+
+    if (slideTimeout) {
+      clearTimeout(slideTimeout);
+      slideTimeout = null;
+    }
+
+    // Pause les vidéos
     medias.forEach((el) => {
-      if (el.tagName === "VIDEO") el.pause();
+      if (el.tagName === "VIDEO") {
+        el.pause();
+      }
     });
+
+    // STOPPER complètement l'animation CSS et figer la barre à sa position actuelle
+    if (pausedAt !== null && totalDuration) {
+      const currentProgressPercent = (pausedAt / totalDuration) * 100;
+      timerBar.style.transition = "none";
+      timerBar.style.width = `${currentProgressPercent}%`;
+    }
   };
 
   slider.addEventListener("mouseenter", startAutoSlide);
